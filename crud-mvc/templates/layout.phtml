@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <title>mini Projet MVC</title>
+        <link rel="stylesheet" href="assets/style.css" />
+    </head>
+    <body>
+        	<header>
+			<nav>
+			 <ul>
+           <a href="index.php">List Users</a>
+           <a href="index.php?route=create">Create User</a>
+             <a href="index.php?route=show">Show User</a>
+          <a href="index.php?route=update">Update User</a>
+        </ul>
+			</nav>
+		</header>
+        <?php
+             require __DIR__ . "/../templates/users/$template.phtml";
+        ?>
+    </body>
+</html>

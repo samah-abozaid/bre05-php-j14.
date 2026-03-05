@@ -10,52 +10,23 @@ class UserManager extends AbstractManager {
     public function create(User $user) : User {
 
         $query = $this->db->prepare(
-            "INSERT INTO users (firstName, lastName, email, password,created_at)
-             VALUES (:firstName, :lastName, :email, :password,:created_at)"
+            "INSERT INTO users (firstName, lastName, email, password)
+             VALUES (:firstName, :lastName, :email, :password)"
         );
 
-        $parameters = [
+        $params = [
             'firstName' => $user->getFirstName(),
             'lastName' => $user->getLastName(),
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
-              'created_at' => $user->getCreatedAt()->format('Y-m-d H:i:s')
-            // DateTime::createFromFormat('Y-m-d H:i:s', $data['created_at'])
         ];
- 
 
-        $query->execute($parameters);
+        $query->execute($params);
 
         $user->setId($this->db->lastInsertId());
 
         return $user;
     }
-    //  public function create(User $user) : User {
-    
-    // $query = $this->db->prepare("INSERT INTO users (firstname, lastname, email, password, created_at)
-    // VALUES (:firstname, :lastname, :email, :password, :created_at)");
-    
-    // $parameters = [
-    //     "firstname" => $user->getFirstName(),
-    //     "lastname" => $user->getLastName(),
-    //     "email" => $user->getEmail(),
-    //     "password" => $user->getPassword(),
-    //     "created_at" => $user->getCreatedAt()->format('Y-m-d H:i:s')
-    //     ];
-        
-    
-    // $query->execute($parameters);
-    
-    
-    
-    // $id = $this->db->lastInsertId();
-    // $user->setId($id);
-    
-    
-    
-    // return $user;
-    
-    // }
     //*************************************************
     //***************************************************
     public function update(User $user) : User{
