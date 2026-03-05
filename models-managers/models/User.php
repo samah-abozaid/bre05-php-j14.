@@ -12,7 +12,7 @@ class User {
        
     ) {}
 
-    // Getters et setters si besoin
+   
     public function getId(): ?int {
         return $this->id; 
         
