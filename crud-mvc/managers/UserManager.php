@@ -6,56 +6,8 @@ class UserManager extends AbstractManager {
         parent::__construct();
     }
 
-    // Insérer en base de données
-    public function create(User $user) : User {
-
-        $query = $this->db->prepare(
-            "INSERT INTO users (firstName, lastName, email, password)
-             VALUES (:firstName, :lastName, :email, :password)"
-        );
-
-        $params = [
-            'firstName' => $user->getFirstName(),
-            'lastName' => $user->getLastName(),
-            'email' => $user->getEmail(),
-            'password' => $user->getPassword(),
-        ];
-
-        $query->execute($params);
-
-        $user->setId($this->db->lastInsertId());
-
-        return $user;
-    }
-    //*************************************************
-    //***************************************************
-    public function update(User $user) : User{
-        
-
-    $query = $this->db->prepare(
-        "UPDATE users 
-         SET firstName = :firstName,
-             lastName = :lastName,
-             email = :email,
-             password = :password
-         WHERE id = :id"
-    );
-
-    $params = [
-        'id' => $user->getId(),
-        'firstName' => $user->getFirstName(),
-        'lastName' => $user->getLastName(),
-        'email' => $user->getEmail(),
-        'password' => $user->getPassword()
-    ];
-
-    $query->execute($params);
-
-    return $user;
-}
-       //***********************
-       //*****************************************
- public function findAll() : array {
+     
+       public function findALL(): array { 
 
     $query = $this->db->prepare("SELECT * FROM users");
     $query->execute();
@@ -69,21 +21,19 @@ class UserManager extends AbstractManager {
             $data['id'],
             $data['firstName'],
             $data['lastName'],
-            $data['email'],
-            $data['password'],
-            DateTime::createFromFormat('Y-m-d H:i:s', $data['created_at'])
+            $data['email']
         );
 
         $users[] = $user;
     }
-
-    return $users;
-}      
-     //************************
-     //****************************
-     
-   public function findById(int $id) : ?User {
-
+  
+       }
+       
+     //******************************
+     //************************************
+       
+       public function findOne(int $id): User{
+       
     $query = $this->db->prepare(
         "SELECT * FROM users WHERE id = :id"
     );
@@ -98,17 +48,92 @@ class UserManager extends AbstractManager {
         return null;
     }
 
-    return new User(
+   $user= new User(
         $data['id'],
         $data['firstName'],
         $data['lastName'],
-        $data['email'],
-        $data['password'],
-         DateTime::createFromFormat('Y-m-d H:i:s', $data['created_at'])
+        $data['email']
+
     );
-}     
+    return $user;
+    
+} 
+
+//***********************************************
+//*************************************************
+     public function create (User $user){
+         
+         $query = $this->db->prepare(
+            "INSERT INTO users (firstName, lastName, email)
+             VALUES (:firstName, :lastName, :email,)"
+        );
+
+        $parameters = [
+            'firstName' => $user->getFirstName(),
+            'lastName' => $user->getLastName(),
+            'email' => $user->getEmail(),
+        ];
+ 
+
+        $query->execute($parameters);
+
+        $user->setId($this->db->lastInsertId());
+
+        return $user;
+    }
+    
+    //***********************************************
+    //*********************************
+    public function check_create(User $user):void{
         
-    public function delete(int $id) : void {
+       if ($newUser->getId() !== null) {
+        echo "User créé avec succès";
+    } else {
+        echo "Erreur lors de la création";
+    }
+    }
+    
+    
+    
+    //**********************************************
+    //**********************************************************
+       public function update(User $user) : User{
+        
+
+    $query = $this->db->prepare(
+        "UPDATE users 
+         SET firstName = :firstName,
+             lastName = :lastName,
+             email = :email,
+
+         WHERE id = :id"
+    );
+
+    $params = [
+        'id' => $user->getId(),
+        'firstName' => $user->getFirstName(),
+        'lastName' => $user->getLastName(),
+        'email' => $user->getEmail(),
+
+    ];
+
+    $query->execute($params);
+
+    return $user;
+}
+     //*****************************************************
+     //************************************************
+     public function check_update():void {
+         
+         
+         
+         
+     }
+    
+       //*******************************
+       //***********************************
+       
+     public function delete(int $id) : void {
 
     $query = $this->db->prepare(
         "DELETE FROM users WHERE id = :id"
@@ -117,9 +142,16 @@ class UserManager extends AbstractManager {
     $query->execute([
         'id' => $id
     ]);
-}    
-        
-        
+}        
+       
+       
+       
+       
+       
+       
+       
+       
+       
         
         
     }
